@@ -1,0 +1,32 @@
+{
+	"schemaVersion": 1,
+	"id": "discord-chat-logger",
+	"version": "${version}",
+	"name": "Discord Chat Logger",
+	"description": "Sends Minecraft chat messages to Discord webhook with customizable message types",
+	"authors": ["Avro170"],
+	"contact": {
+		"homepage": "https://github.com/Avro17/discord-chat-logger",
+		"sources": "https://github.com/Avro17/discord-chat-logger",
+		"issues": "https://github.com/Avro17/discord-chat-logger/issues"
+	},
+	"license": "MIT",
+	"icon": "assets/discord-chat-logger/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": ["com.avro170.discordchatlogger.client.ClientInit"],
+		"modmenu": ["com.avro170.discordchatlogger.ModMenuIntegration"]
+	},
+	"mixins": [
+		"discord-chat-logger.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.0",
+		"fabric-api": "*",
+		"minecraft": ">=1.21",
+		"java": ">=21"
+	},
+	"suggests": {
+		"modmenu": "*"
+	}
+}

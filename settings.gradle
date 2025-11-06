@@ -1,0 +1,10 @@
+pluginManagement {
+	repositories {
+		maven { url = 'https://maven.fabricmc.net/' }
+		maven { url = 'https://maven.terraformersmc.com/releases/' }
+		maven { url = 'https://maven.isxander.dev/releases' }
+		gradlePluginPortal()
+	}
+}
+
+rootProject.name = 'discord-chat-logger'
