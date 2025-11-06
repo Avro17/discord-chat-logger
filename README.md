@@ -14,7 +14,6 @@ Fabric мод для Minecraft, который отправляет сообще
 - ✅ Логирование присоединений
 - ❌ Логирование покиданий сервера
 - ⚙️ Полная настройка через JSON конфиг
-- 🎮 Интеграция с Mod Menu
 
 ### 📋 Требования
 - Minecraft: **1.21.8**
@@ -75,7 +74,6 @@ Fabric mod for Minecraft that sends chat messages to Discord webhook.
 - ✅ Player join logging
 - ❌ Player leave logging
 - ⚙️ Full configuration via JSON
-- 🎮 Mod Menu integration
 
 ### 📋 Requirements
 - Minecraft: **1.21.8**
