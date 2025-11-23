@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Config {
+
     public String webhookUrl = "";
     public boolean logChatMessages = true;
     public boolean logDeathMessages = true;
@@ -22,32 +23,31 @@ public class Config {
     );
 
     public static Config load() {
-        if (CONFIG_FILE.exists()) {
-            try (FileReader reader = new FileReader(CONFIG_FILE)) {
-                return GSON.fromJson(reader, Config.class);
-            } catch (IOException e) {
-                System.err.println("Failed to load config: " + e.getMessage());
-            }
+        if (!CONFIG_FILE.exists()) {
+            Config config = new Config();
+            config.save();
+            return config;
         }
-        Config config = new Config();
-        config.save();
-        return config;
+        try (FileReader reader = new FileReader(CONFIG_FILE)) {
+            Config config = GSON.fromJson(reader, Config.class);
+            if (config == null) {
+                config = new Config();
+                config.save();
+            }
+            return config;
+        } catch (IOException e) {
+            System.err.println("Failed to load config: " + e.getMessage());
+            Config config = new Config();
+            config.save();
+            return config;
+        }
     }
 
     public void save() {
-        try {
-            CONFIG_FILE.getParentFile().mkdirs();
-            try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
-                GSON.toJson(this, writer);
-            }
+        try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
+            GSON.toJson(this, writer);
         } catch (IOException e) {
             System.err.println("Failed to save config: " + e.getMessage());
         }
     }
-
-    public String getWebhookUrl() { return webhookUrl; }
-    public boolean isLogChatMessages() { return logChatMessages; }
-    public boolean isLogDeathMessages() { return logDeathMessages; }
-    public boolean isLogJoinMessages() { return logJoinMessages; }
-    public boolean isLogLeaveMessages() { return logLeaveMessages; }
 }

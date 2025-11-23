@@ -47,12 +47,16 @@ public class DiscordWebhook {
         if (responseCode < 200 || responseCode >= 300) {
             System.err.println("Discord webhook error: " + responseCode);
         }
-
         connection.disconnect();
     }
 
     private String buildJsonPayload() {
-        return "{\"username\":\"" + escapeJson(username) + "\",\"content\":\"" + escapeJson(content) + "\"}";
+        return "{\"username\":\"" + escapeJson(username) + "\",\"content\":\"" + escapeForDiscord(content) + "\"}";
+    }
+
+    private String escapeForDiscord(String text) {
+        if (text == null) return "";
+        return escapeJson(text); // теперь никаких выделений!!
     }
 
     private String escapeJson(String text) {
