@@ -77,8 +77,8 @@ public class MessageDetector {
             "گیم میں شمولیت اختیار کی", "खेल में शामिल हुआ", "खेलमा सामिल भए", "खेलमे भाग लेलक",
             "खेलेभ्योः पार्थः", "खेळांत सामिल जाले", "खेळाला सामील झाले", "ਖੇਡ ਵਿੱਚ ਸ਼ਾਮਿਲ ਹੋ ਗਿਆ",
             "ଗେମରେ ଯୋଗ ଦେଲେ", "விளையாட்டில் சேர்ந்தார்", "ఆట ఆడటానికి చేరాడు", "ಆಟದೊಂದಿಗೆ ಸೇರಿಕೊಂಡ",
-            "ಕೆಲಸಕ್ಕೆ ಸೊಗಸುಕೊಂಡ", "ក្រីឌាវត្ត એક્વીવ્યા", "เข้าร่วมเกม", "ကဲ အစည်း အံ့လုံ",
-            "ဂိမ်းသို့ ပါ၀င်ခဲ့သည်", "დაკავშირდა თამაშს", "ወደ ጨዋታ ገብቷል", "ゲームに参加しました",
+            "ಕೆಲಸಕ್ಕೆ ಸೊಗಸುಕೊಂಡ", "ក្រឡាទៅលេងហ្គេម", "เข้าร่วมเกม", "ကိမ်းထဲ ဝင္ေရာက္ခဲ့သည္",
+            "ဂိမ်းသို့ ပါဝင်ခဲ့သည်", "დაკავშირდა თამაშს", "ወደ ጨዋታ ገብቷል", "ゲームに参加しました",
             "加入了游戏", "加入了遊戲", "加入咗遊戲", "參加了遊戲", "ꯂꯥꯏꯕ ꯑꯃꯥꯌꯇꯝ ꯆꯍꯀꯇꯥ ꯄꯤ", "게임에 참가했습니다"
     };
 
@@ -96,18 +96,19 @@ public class MessageDetector {
             "lahkus mängust", "left the game", "lîstikê jê bûn", "magterang leiksins", "meninggalkan permainan",
             "mvccokate em mvnke", "nag-alis sa laro", "naiwan sa laro", "ninggal ing game", "niwan nampitandrina",
             "nyumba na mchezo", "opustil hru", "opuszczył grę", "oyundan çıktı", "poistui pelistä",
-            "pакідаў гульню", "reliquit ludum", "rời khỏi trò chơi", "saiu do jogo", "salió del xuegu",
+            "пакідаў гульню", "reliquit ludum", "rời khỏi trò chơi", "saiu do jogo", "salió del xuegu",
             "ude osoro", "umalis sa laro", "verlìss ot spoil", "verlö däs spìl", "wot y tyf",
             "ya bar wasa", "ykwa cem ofi", "ĉesis ludon", "ĝuinis la ludo", "ħallaq mil-logħba",
             "αποχώρησε από το παιχνίδι", "лӧсьӧдчис ойнысь", "напусна играта", "ойныс видчысь",
             "ойындан кеткен", "оюнан кеткен", "покинул игру", "уйындан кеткен", "ушлі з гульні",
             "հեռանցել խաղից", "քար դուրս եկավ", "עזב את המשחק", "بازی را ترک کرد", "غادر اللعبة",
-            "खेल छोड़ के गया", "खेल से बाहर निकल गया", "खेळ सोडून गेले", "చేర్లాడు",
-            "ಆಟವನ್ನು ತೊರೆದ", "ສະຫາຍຮ້ຳ ເກມ", "မထွက်သွားသည်", "დატოვა თამაშმა", "ゲームを離れました",
+            "खेल छोड़ के गया", "खेल से बाहर निकल गया", "खेळ सोडून गेले", "चला गेला",
+            "ಆಟವನ್ನು ತೊರೆದ", "ເລີກຫຼິ້ນເກມ", "မဂိမ်းထဲမှ ထွက်သွားသည်", "დატოვა თამაშმა", "ゲームを離れました",
             "離開了遊戲", "ꯂꯥꯏꯕ ꯑꯃꯥꯌꯇꯝ ꯀꯠ", "게임을 떠났습니다"
     };
 
     public static boolean isDeath(String message) {
+        if (message == null) return false;
         String lower = message.toLowerCase();
         for (String keyword : DEATH_KEYWORDS) {
             if (lower.contains(keyword.toLowerCase())) {
@@ -118,6 +119,7 @@ public class MessageDetector {
     }
 
     public static boolean isJoin(String message) {
+        if (message == null) return false;
         String lower = message.toLowerCase();
         for (String keyword : JOIN_KEYWORDS) {
             if (lower.contains(keyword.toLowerCase())) {
@@ -128,6 +130,7 @@ public class MessageDetector {
     }
 
     public static boolean isLeave(String message) {
+        if (message == null) return false;
         String lower = message.toLowerCase();
         for (String keyword : LEAVE_KEYWORDS) {
             if (lower.contains(keyword.toLowerCase())) {

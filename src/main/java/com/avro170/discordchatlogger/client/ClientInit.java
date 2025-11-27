@@ -15,6 +15,8 @@ public class ClientInit implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
+
+            // /blacklist add/remove
             dispatcher.register(literal("blacklist")
                     .then(literal("add")
                             .then(argument("nick", StringArgumentType.word())
@@ -29,9 +31,7 @@ public class ClientInit implements ClientModInitializer {
                                             context.getSource().sendFeedback(Text.literal("User " + nick + " is already in blacklist!"));
                                         }
                                         return 1;
-                                    })
-                            )
-                    )
+                                    })))
                     .then(literal("remove")
                             .then(argument("nick", StringArgumentType.word())
                                     .executes(context -> {
@@ -45,10 +45,15 @@ public class ClientInit implements ClientModInitializer {
                                             context.getSource().sendFeedback(Text.literal("User " + nick + " not found in blacklist!"));
                                         }
                                         return 1;
-                                    })
-                            )
-                    )
-            );
+                                    }))));
+
+            // /dclreload — перечитать конфиг с диска
+            dispatcher.register(literal("dclreload")
+                    .executes(context -> {
+                        Config cfg = Config.load();
+                        context.getSource().sendFeedback(Text.literal("Discord Chat Logger config reloaded. useWebhookSeparation=" + cfg.useWebhookSeparation));
+                        return 1;
+                    }));
         });
     }
 }
