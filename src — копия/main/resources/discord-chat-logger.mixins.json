@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "com.avro170.discordchatlogger.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "ChatHudMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

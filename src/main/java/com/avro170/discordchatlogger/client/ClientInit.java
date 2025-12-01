@@ -16,36 +16,49 @@ public class ClientInit implements ClientModInitializer {
     public void onInitializeClient() {
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
 
-            // /blacklist add/remove
+            // /blacklist add/remove/list — теперь это список слов/масок
             dispatcher.register(literal("blacklist")
                     .then(literal("add")
-                            .then(argument("nick", StringArgumentType.word())
+                            // greedyString позволяет писать русские слова и фразы с пробелами
+                            .then(argument("word", StringArgumentType.greedyString())
                                     .executes(context -> {
-                                        String nick = StringArgumentType.getString(context, "nick");
+                                        String word = StringArgumentType.getString(context, "word");
                                         Config config = Config.load();
-                                        if (!config.getBlackList().contains(nick)) {
-                                            config.getBlackList().add(nick);
+                                        if (!config.getBlackList().contains(word)) {
+                                            config.getBlackList().add(word);
                                             config.save();
-                                            context.getSource().sendFeedback(Text.literal("User " + nick + " added to blacklist!"));
+                                            context.getSource().sendFeedback(Text.literal("Word \"" + word + "\" added to blacklist!"));
                                         } else {
-                                            context.getSource().sendFeedback(Text.literal("User " + nick + " is already in blacklist!"));
+                                            context.getSource().sendFeedback(Text.literal("Word \"" + word + "\" is already in blacklist!"));
                                         }
                                         return 1;
                                     })))
                     .then(literal("remove")
-                            .then(argument("nick", StringArgumentType.word())
+                            .then(argument("word", StringArgumentType.greedyString())
                                     .executes(context -> {
-                                        String nick = StringArgumentType.getString(context, "nick");
+                                        String word = StringArgumentType.getString(context, "word");
                                         Config config = Config.load();
-                                        if (config.getBlackList().contains(nick)) {
-                                            config.getBlackList().remove(nick);
+                                        if (config.getBlackList().contains(word)) {
+                                            config.getBlackList().remove(word);
                                             config.save();
-                                            context.getSource().sendFeedback(Text.literal("User " + nick + " removed from blacklist!"));
+                                            context.getSource().sendFeedback(Text.literal("Word \"" + word + "\" removed from blacklist!"));
                                         } else {
-                                            context.getSource().sendFeedback(Text.literal("User " + nick + " not found in blacklist!"));
+                                            context.getSource().sendFeedback(Text.literal("Word \"" + word + "\" not found in blacklist!"));
                                         }
                                         return 1;
-                                    }))));
+                                    })))
+                    .then(literal("list")
+                            .executes(context -> {
+                                Config config = Config.load();
+                                if (config.getBlackList().isEmpty()) {
+                                    context.getSource().sendFeedback(Text.literal("Blacklist is empty."));
+                                } else {
+                                    String joined = String.join(", ", config.getBlackList());
+                                    context.getSource().sendFeedback(Text.literal("Blacklist: " + joined));
+                                }
+                                return 1;
+                            }))
+            );
 
             // /dclreload — перечитать конфиг с диска
             dispatcher.register(literal("dclreload")

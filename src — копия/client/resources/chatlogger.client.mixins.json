@@ -1,0 +1,11 @@
+{
+	"required": true,
+	"package": "com.avro170.discordchatlogger.mixin.client",
+	"compatibilityLevel": "JAVA_21",
+	"client": [
+      "com.avro170.discordchatlogger.mixin.client.ExampleClientMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

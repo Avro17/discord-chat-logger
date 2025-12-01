@@ -12,10 +12,7 @@ public class Config {
     public boolean useWebhookSeparation = false;
     public String defaultWebhook = "https://discord.com/api/webhooks/...";
 
-    // serverAddress -> webhook
     private Map<String, String> webhooks = new HashMap<>();
-
-    // Теперь это список СЛОВ/МАСОК, а не только ников
     private List<String> blacklist = new ArrayList<>();
 
     public boolean logChatMessages = true;

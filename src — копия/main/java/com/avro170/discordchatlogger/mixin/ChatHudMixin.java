@@ -23,6 +23,9 @@ public class ChatHudMixin {
         handleMessage(text);
     }
 
+    // Старую версию addMessage(Text) вообще не трогаем, чтобы не ловить дубли на серверах,
+    // где оба метода вызываются цепочкой.
+
     private void handleMessage(Text text) {
         System.out.println("[DCL] ChatHudMixin fired, text = " + text);
         if (text == null) return;
@@ -38,22 +41,24 @@ public class ChatHudMixin {
         System.out.println("[DCL] webhookUrl = " + webhookUrl);
         if (webhookUrl == null || webhookUrl.isEmpty()) return;
 
-        // НОВОЕ: фильтр по словам/маскам из blacklist
-        String lower = message.toLowerCase();
-        for (String word : config.getBlackList()) {
-            if (word != null && !word.isEmpty() && lower.contains(word.toLowerCase())) {
-                System.out.println("[DCL] blocked by word blacklist: " + word);
-                return;
+        String sender = extractNickUniversal(message);
+        System.out.println("[DCL] sender = " + sender);
+
+        if (sender != null && !sender.isEmpty()) {
+            for (Object o : config.getBlackList()) {
+                String blacklistNick = String.valueOf(o);
+                if (sender.equalsIgnoreCase(blacklistNick)) {
+                    System.out.println("[DCL] blocked by blacklist: " + sender);
+                    return;
+                }
             }
         }
 
-        // Детектируем тип сообщения
         boolean isDeath = MessageDetector.isDeath(message);
         boolean isJoin = MessageDetector.isJoin(message);
         boolean isLeave = MessageDetector.isLeave(message);
         System.out.println("[DCL] flags: death=" + isDeath + ", join=" + isJoin + ", leave=" + isLeave);
 
-        // Фильтрация по типам
         if (isDeath && !config.logDeathMessages) return;
         if (isJoin && !config.logJoinMessages) return;
         if (isLeave && !config.logLeaveMessages) return;
@@ -73,7 +78,7 @@ public class ChatHudMixin {
         }).start();
     }
 
-    // Ванильный "<Nick> msg" и "Nick: msg" (пока оставляем, если захочешь ещё делать ник-специфичный функционал)
+    // "<Nick> msg" и "Nick: msg"
     private String extractNickUniversal(String message) {
         int lt = message.indexOf('<');
         int gt = message.indexOf('>');
